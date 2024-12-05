@@ -260,6 +260,8 @@ name = "cch"
 version = "0.1.0"
 dependencies = [
  "axum 0.7.9",
+ "ipnet",
+ "serde",
  "shuttle-axum",
  "shuttle-runtime",
  "tokio",

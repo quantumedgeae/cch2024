@@ -1,29 +1,20 @@
-use axum::{
-    http::{header, StatusCode},
-    response::IntoResponse,
-    routing::get,
-    Router,
-};
+use axum::{routing::get, Router};
 
-async fn hello_bird() -> &'static str {
+mod cch;
+
+pub async fn hello_bird() -> &'static str {
     "Hello, bird!"
-}
-
-async fn redirect_to_youtube() -> impl IntoResponse {
-    (
-        StatusCode::FOUND,
-        [(
-            header::LOCATION,
-            "https://www.youtube.com/watch?v=9Gc4QTqslN4",
-        )],
-    )
 }
 
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
     let router = Router::new()
         .route("/", get(hello_bird))
-        .route("/-1/seek", get(redirect_to_youtube));
+        .route("/-1/seek", get(cch::_minus1::redirect_to_youtube))
+        .route("/2/dest", get(cch::challenge2::calc_ip_ops))
+        .route("/2/key", get(cch::challenge2::calc_ip_ops))
+        .route("/2/v6/dest", get(cch::challenge2::calc_ip_ops))
+        .route("/2/v6/key", get(cch::challenge2::calc_ip_ops));
 
     Ok(router.into())
 }
