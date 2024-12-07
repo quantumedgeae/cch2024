@@ -1,4 +1,7 @@
-use axum::{routing::get, Router};
+use axum::{
+    routing::{get, post},
+    Router,
+};
 
 mod cch;
 
@@ -14,7 +17,8 @@ async fn main() -> shuttle_axum::ShuttleAxum {
         .route("/2/dest", get(cch::challenge2::calc_ip_ops))
         .route("/2/key", get(cch::challenge2::calc_ip_ops))
         .route("/2/v6/dest", get(cch::challenge2::calc_ip_ops))
-        .route("/2/v6/key", get(cch::challenge2::calc_ip_ops));
+        .route("/2/v6/key", get(cch::challenge2::calc_ip_ops))
+        .route("/5/manifest", post(cch::challenge5::manifest_messaging));
 
     Ok(router.into())
 }
