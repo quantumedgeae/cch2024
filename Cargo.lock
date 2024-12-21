@@ -273,6 +273,7 @@ dependencies = [
  "axum 0.7.9",
  "cargo-manifest",
  "ipnet",
+ "rand",
  "ratelimit",
  "serde",
  "serde_json",

@@ -64,6 +64,11 @@ async fn main() -> shuttle_axum::ShuttleAxum {
         .route("/2/v6/key", get(cch::challenge2::calc_ip_ops))
         .route("/5/manifest", post(cch::challenge5::manifest_messaging))
         .route("/9/milk", post(cch::challenge9::milk))
+        .route("/12/board", get(cch::challenge12::show_board))
+        .route("/12/reset", post(cch::challenge12::reset_board))
+        .route("/12/place/:team/:column", post(cch::challenge12::place))
+        .route("/12/random-board", get(cch::challenge12::randomize_board))
+        .layer(Extension(cch::challenge12::BoardState::rwlocked_default()))
         .layer(middleware::from_fn(limit_rate))
         .route("/9/refill", post(refill))
         .layer(Extension(shared_state));
