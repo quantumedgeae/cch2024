@@ -11,6 +11,7 @@ use axum::{
 
 use ratelimit::Ratelimiter;
 use tokio::time::sleep;
+use tower_cookies::CookieManagerLayer;
 
 mod cch;
 
@@ -69,6 +70,10 @@ async fn main() -> shuttle_axum::ShuttleAxum {
         .route("/12/place/:team/:column", post(cch::challenge12::place))
         .route("/12/random-board", get(cch::challenge12::randomize_board))
         .layer(Extension(cch::challenge12::BoardState::rwlocked_default()))
+        .route("/16/wrap", post(cch::challenge16::wrap))
+        .route("/16/unwrap", get(cch::challenge16::unwrap))
+        .route("/16/decode", post(cch::challenge16::decode))
+        .layer(CookieManagerLayer::new())
         .layer(middleware::from_fn(limit_rate))
         .route("/9/refill", post(refill))
         .layer(Extension(shared_state));
